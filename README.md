@@ -24,11 +24,11 @@ Note that we don't really use a mocking library in our stack. In most cases this
 
 In [`src/`](./src) you can find basic components written with our current stack: React, MobX and TypeScript.
 
-* [`src/component.tsx`](./src/component.tsx) exports `<Add />`. This is a stateless functional component which uses the function `add` from `src/function.ts`.
-* [`src/component-with-add.tsx`](./src/component-with-add.tsx) exports `<Add2 />`. This is the same component as `<Add />`, but `add` can be overwritten via `props`.
+* [`src/component.tsx`](./src/component.tsx) exports `<Add />`. This is a stateless functional component which uses the function `add` from [`src/function.ts`](./src/function.ts).
+* [`src/component-with-add-prop.tsx`](./src/component-with-add-prop.tsx) exports `<Add2 />`. This is the same component as `<Add />`, but `add` can be overwritten via `props`.
 * [`src/component-with-interaction.tsx`](./src/component-with-interaction.tsx) exports `<Counter />`. This is a stateful class component to showcase testing of dynamic state based on user interactions.
 * [`src/component-with-fetching.tsx`](./src/component-with-fetching.tsx) exports `<FetchUser />`. This stateful class component showcases the testing of components which request data.
-* [`src/component-with-fetching-2.tsx`](./src/component-with-fetching-2.ts) and [`src/component-with-fetching-di.tsx`](./src/component-with-fetching-di.tsx) are variations of `<FetchUser />` similar to like `<Add2 />` is a variation of `<Add />` to make `fetch` overwriteable.
+* [`src/component-with-fetching-2.tsx`](./src/component-with-fetching-2.tss) and [`src/component-with-fetching-di.tsx`](./src/component-with-fetching-di.tsx) are variations of `<FetchUser />` similar to like `<Add2 />` is a variation of `<Add />` to make `fetch` overwriteable.
 
 In [`tests/`](./tests/) you can find the according tests:
 
