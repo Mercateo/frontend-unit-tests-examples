@@ -2,8 +2,7 @@ import expect, { createSpy, Spy } from 'expect';
 import React from 'react';
 import { shallow } from 'enzyme';
 import { FetchUser2 } from '../src/component-with-fetching-2';
-
-const nextTick = () => new Promise(resolve => setTimeout(resolve, 0));
+import { nextTick } from './utils';
 
 describe('component: `<FetchUser2 />`', () => {
   const originalFetch = FetchUser2.fetch;

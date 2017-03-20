@@ -2,8 +2,7 @@ import expect, { createSpy, Spy } from 'expect';
 import React from 'react';
 import { shallow } from 'enzyme';
 import { FetchUserDi, fetchUserDependencies, Fetch } from '../src/component-with-fetching-di';
-
-const nextTick = () => new Promise(resolve => setTimeout(resolve, 0));
+import { nextTick } from './utils';
 
 describe('component: `<FetchUserDi />`', () => {
   let resolveFetch: (value: any) => void;
