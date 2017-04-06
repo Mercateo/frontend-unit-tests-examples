@@ -11,5 +11,8 @@ describe('component: `<Add />` without enzyme', () => {
 
     expect(output.type).toBe('p');
     expect(output.props.children).toEqual(['The sum is: ', 3, '.']);
+
+    // also possible
+    expect(output).toEqual(<p>The sum is: {3}.</p>);
   });
 });
