@@ -16,7 +16,7 @@ Here is a breakdown of all involved frameworks:
 * [react-addons-test-utils](https://facebook.github.io/react/docs/test-utils.html): A lib for basic React tests.
 * [Enzyme](http://airbnb.io/enzyme/): A lib for more complex React tests.
 * [InversifyJS](http://inversify.io/): Used for dependency injection/inversion of control in some of our packages.
-* [PhantomJS](http://phantomjs.org/): A headless browser which is used to execute the tests. (It is based on Chrome and has the same APIs as a real browser, but starts faster.)
+* [PhantomJS](http://phantomjs.org/): A headless browser which is used to execute the tests. (It is based on WebKit and has the same APIs as a real browser, but starts faster.)
 
 Note that we don't really use a mocking library in our stack. In most cases this is not necessary due to the dynamic nature of JavaScript. We just write down what we need. However [@otbe](https://github.com/otbe) experimented with writing a TypeScript specific mocking library called [`emock`](https://github.com/otbe/emock). It was quite nice, but we don't really used it so far.
 
