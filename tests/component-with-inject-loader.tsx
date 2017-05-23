@@ -2,12 +2,12 @@ import expect from 'expect';
 import React from 'react';
 import { shallow } from 'enzyme';
 import { nextTick } from './utils';
-const { Add, injectableDefaultAdd, resetAllInjects: resetAllInAdd }  = require('../injectable-loader?defaultAdd!../src/component-with-add-prop');
-const { FetchUser, injectableFetch, resetAllInjects: resetAllInFetchUser } = require('../injectable-loader?fetch!../src/component-with-fetching');
+const { Add, ilOverwriteDefaultAdd, resetAllInjects: resetAllInAdd }  = require('../injectable-loader?defaultAdd!../src/component-with-add-prop');
+const { FetchUser, ilOverwriteFetch, resetAllInjects: resetAllInFetchUser } = require('../injectable-loader?fetch!../src/component-with-fetching');
 
 describe('component: `<FetchUser />` with inject loader', () => {
   it('should fetch user with replaced fetch and magic val', async () => {
-    injectableFetch((url: string): Promise<any> => {
+    ilOverwriteFetch((url: string): Promise<any> => {
       return new Promise((resolve, reject) => {
         resolve({
           ok: true,
@@ -46,7 +46,7 @@ describe('component: `<Add />` with inject loader', () => {
   });
 
   it('should show the product because of function replacement', () => {
-    injectableDefaultAdd((a: number, b: number) => a * b);
+    ilOverwriteDefaultAdd((a: number, b: number) => a * b);
 
     const wrapper = shallow(<Add a={1} b={2} />);
 
@@ -56,7 +56,7 @@ describe('component: `<Add />` with inject loader', () => {
     resetAllInAdd();
   });
 
-  it('should show the product because of function replacement', () => {
+  it('should show the sum like before', () => {
     const wrapper = shallow(<Add a={7} b={8} />);
 
     expect(wrapper.type()).toBe('p');

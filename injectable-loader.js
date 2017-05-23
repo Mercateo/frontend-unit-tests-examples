@@ -2,7 +2,7 @@ const loaderUtils = require('loader-utils');
 const babylon = require('babylon');
 const babel = require('babel-core');
 const traverse = require('babel-traverse');
-var expect = require('expect');
+const expect = require('expect');
 
 module.exports = function (contentStr, contentJs) {
   const options = loaderUtils.parseQuery(this.query);
@@ -23,11 +23,12 @@ module.exports = function (contentStr, contentJs) {
     ]
   });
 
-  // replace imports by injected imports which can be mocked
+  // replace imports by custom import which can be overwritten
   imports.forEach(
     key => ast = replaceKeyByInject(key, ast, resourcePath)
   );
 
+  // export method to reset all overwritten imports
   addResetFunction(ast, imports);
 
   // return converted AST
@@ -36,12 +37,32 @@ module.exports = function (contentStr, contentJs) {
     + '\n// END-injectable-loader';
 };
 
+function replaceKeyByInject(key, ast, resourcePath) {
+  if (!fileUsesImport(ast, key)) {
+    console.warn(`Import ${key} in "${resourcePath}" is not defined. If this is not global, this import is unknown!`);
+  }
+
+  const {
+    overwriteMethodName,
+    usedName,
+    defaultName
+  } = getVariableNames(key);
+
+  replaceImportUsages(ast, key, usedName);
+  addExportedOverwriteMethod(ast, overwriteMethodName, usedName);
+  addOverwriteDeclarationField(ast, key, usedName);
+  addDefaultDeclarationField(ast, key, defaultName);
+
+  return ast;
+}
+
 function getVariableNames(key) {
+  const injectableLoaderPrefix = 'il';
+
   return {
-    injectableName: 'injectable' + capitalizeFirstLetter(key),
-    overwriteMethodName: 'overwrite' + capitalizeFirstLetter(key),
-    overwrittenName: 'overwritten' + capitalizeFirstLetter(key),
-    defaultName: 'default' + capitalizeFirstLetter(key)
+    overwriteMethodName: injectableLoaderPrefix + 'Overwrite' + capitalizeFirstLetter(key),
+    usedName: injectableLoaderPrefix + capitalizeFirstLetter(key),
+    defaultName: injectableLoaderPrefix + 'Default' + capitalizeFirstLetter(key)
   }
 }
 
@@ -49,7 +70,7 @@ function addResetFunction(ast, imports) {
   const resetMethodName = 'resetAllInjects';
 
   const expressionStatements = imports.map(importName => {
-    const { defaultName, overwrittenName } = getVariableNames(importName);
+    const { defaultName, usedName } = getVariableNames(importName);
 
     return ({
       type: "ExpressionStatement",
@@ -59,9 +80,9 @@ function addResetFunction(ast, imports) {
         left: {
           type: "Identifier",
           loc: {
-            identifierName: overwrittenName
+            identifierName: usedName
           },
-          name: overwrittenName
+          name: usedName
         },
         right: {
           type: "Identifier",
@@ -101,25 +122,6 @@ function addResetFunction(ast, imports) {
   });
 }
 
-function replaceKeyByInject(key, ast, resourcePath) {
-  if (!fileUsesImport(ast, key)) {
-    console.warn(`Import ${key} in "${resourcePath}" is not defined. If this is not global, this import is unknown!`);
-  }
-
-  const injectableName = 'injectable' + capitalizeFirstLetter(key);
-  const overwriteMethodName = 'overwrite' + capitalizeFirstLetter(key);
-  const overwrittenName = 'overwritten' + capitalizeFirstLetter(key);
-  const defaultName = 'default' + capitalizeFirstLetter(key);
-
-  replaceImportUsages(ast, key, overwrittenName);
-  addExportMemberOfInjectableDependency(ast, overwriteMethodName, overwrittenName);
-  addOverwriteDeclarationField(ast, key, overwrittenName);
-  addDefaultDeclarationField(ast, key, defaultName);
-  addExportStatement(ast, injectableName, overwriteMethodName);
-
-  return ast;
-}
-
 function fileUsesImport(ast, key) {
   let foundImportUsage = false;
 
@@ -144,85 +146,64 @@ function replaceImportUsages(ast, key, overwrittenName) {
   });
 }
 
-function addExportMemberOfInjectableDependency(ast, overwriteMethodName, overwrittenName) {
-  ast.program.body.unshift({
-    type: 'FunctionDeclaration',
-    id: {
-      type: 'Identifier',
-      loc: {
-        identifierName: overwriteMethodName
-      },
-      name: overwriteMethodName
-    },
-    generator: false,
-    expression: false,
-    async: false,
-    params: [
-      {
-        type: 'Identifier',
-        loc: {
-          identifierName: 'paramOverwrite'
+function addExportedOverwriteMethod(ast, overwriteMethodName, usedName) {
+  ast.program.body.unshift(
+    {
+      type: 'ExportNamedDeclaration',
+      specifiers: [],
+      source: null,
+      declaration: {
+        type: 'FunctionDeclaration',
+        id: {
+          type: 'Identifier',
+          name: overwriteMethodName
         },
-        name: 'paramOverwrite'
-      }
-    ],
-    body: {
-      type: 'BlockStatement',
-      body: [
-        {
-          type: 'ExpressionStatement',
-          expression: {
-            type: 'AssignmentExpression',
-            operator: '=',
-            left: {
-              type: 'Identifier',
-              loc: {
-                identifierName: overwrittenName
-              },
-              name: overwrittenName
-            },
-            right: {
-              type: 'Identifier',
-              loc: {
-                identifierName: 'paramOverwrite'
-              },
-              name: 'paramOverwrite'
-            }
+        generator: false,
+        expression: false,
+        async: false,
+        params: [
+          {
+            type: 'Identifier',
+            name: 'paramOverwrite'
           }
+        ],
+        body: {
+          type: 'BlockStatement',
+          body: [
+            {
+              type: 'ExpressionStatement',
+              expression: {
+                type: 'AssignmentExpression',
+                operator: '=',
+                left: {
+                  type: 'Identifier',
+                  loc: {
+                    identifierName: usedName
+                  },
+                  name: usedName
+                },
+                right: {
+                  type: 'Identifier',
+                  name: 'paramOverwrite'
+                }
+              }
+            }
+          ]
         }
-      ],
-      directives: []
-    }
-  });
+      },
+      exportKind: 'value'
+    });
 }
 
 function addOverwriteDeclarationField(ast, key, overwrittenName) {
-  ast.program.body.unshift({
-    type: 'VariableDeclaration',
-    declarations: [
-      {
-        type: 'VariableDeclarator',
-        id: {
-          type: 'Identifier',
-          loc: {
-            identifierName: overwrittenName
-          },
-          name: overwrittenName
-        },
-        init: {
-          type: 'Identifier',
-          loc: {
-            identifierName: key
-          },
-          name: key
-        }
-      }
-    ],
-    kind: 'var'
-  });
+  addVariable(ast, overwrittenName, key);
 }
 
 function addDefaultDeclarationField(ast, key, defaultName) {
+  addVariable(ast, defaultName, key);
+}
+
+function addVariable(ast, name, value) {
   ast.program.body.unshift({
     type: 'VariableDeclaration',
     declarations: [
@@ -230,53 +211,15 @@ function addDefaultDeclarationField(ast, key, defaultName) {
         type: 'VariableDeclarator',
         id: {
           type: 'Identifier',
-          loc: {
-            identifierName: defaultName
-          },
-          name: defaultName
+          name: name
         },
         init: {
           type: 'Identifier',
-          loc: {
-            identifierName: key
-          },
-          name: key
+          name: value
         }
       }
     ],
     kind: 'var'
-  });
-}
-
-function addExportStatement(ast, injectableName, overwriteMethodName) {
-  ast.program.body.push({
-    type: 'ExportNamedDeclaration',
-    specifiers: [],
-    source: null,
-    declaration: {
-      type: 'VariableDeclaration',
-      declarations: [
-        {
-          type: 'VariableDeclarator',
-          id: {
-            type: 'Identifier',
-            loc: {
-              identifierName: injectableName
-            },
-            name: injectableName
-          },
-          init: {
-            type: 'Identifier',
-            loc: {
-              identifierName: overwriteMethodName
-            },
-            name: overwriteMethodName
-          }
-        }
-      ],
-      kind: 'var'
-    },
-    exportKind: 'value'
   });
 }
 
