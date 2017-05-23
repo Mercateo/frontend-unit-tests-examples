@@ -2,12 +2,10 @@ import expect from 'expect';
 import React from 'react';
 import { shallow } from 'enzyme';
 import { nextTick } from './utils';
-const { Add, injectableDefaultAdd }  = require('../injectable-loader?defaultAdd!../src/component-with-add-prop');
-const { FetchUser, injectableFetch } = require('../injectable-loader?fetch!../src/component-with-fetching');
+const { Add, injectableDefaultAdd, resetAllInjects: resetAllInAdd }  = require('../injectable-loader?defaultAdd!../src/component-with-add-prop');
+const { FetchUser, injectableFetch, resetAllInjects: resetAllInFetchUser } = require('../injectable-loader?fetch!../src/component-with-fetching');
 
 describe('component: `<FetchUser />` with inject loader', () => {
-  let testedModule = require('../src/component-with-fetching');
-
   it('should fetch user with replaced fetch and magic val', async () => {
     injectableFetch((url: string): Promise<any> => {
       return new Promise((resolve, reject) => {
@@ -24,10 +22,11 @@ describe('component: `<FetchUser />` with inject loader', () => {
     expect(getText()).toBe('Loading...');
     await nextTick();
     expect(getText()).toBe('Hello Mocked Foo Bar!');
+
+    resetAllInFetchUser();
   });
 
   it('should fetch user with default impl', async () => {
-    injectableFetch(window.fetch);
     const wrapper = shallow(<FetchUser />);
     const getText = () => wrapper.find('p').text();
 
@@ -53,11 +52,11 @@ describe('component: `<Add />` with inject loader', () => {
 
     expect(wrapper.type()).toBe('p');
     expect(wrapper.text()).toBe('The sum is: 2.');
+
+    resetAllInAdd();
   });
 
   it('should show the product because of function replacement', () => {
-    injectableDefaultAdd((a: number, b: number) => a + b);
-
     const wrapper = shallow(<Add a={7} b={8} />);
 
     expect(wrapper.type()).toBe('p');
