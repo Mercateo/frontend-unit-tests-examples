@@ -8,7 +8,7 @@ module.exports = function (contentStr, sourceMap) {
   const resourcePath = this.resourcePath;
 
   if (options === null || options === undefined) {
-    console.error('No options specified: Use "injectable-loader?fieldA,fieldB!../file"');
+    console.error('No options specified: Use "import-inject-loader?fieldA,fieldB!../file"');
     return contentStr;
   }
 
@@ -31,9 +31,9 @@ module.exports = function (contentStr, sourceMap) {
   addResetFunction(ast, imports);
 
   // return converted AST
-  return '// BEGIN-injectable-loader\n'
+  return '// BEGIN-import-inject-loader\n'
     + babel.transformFromAst(ast).code
-    + '\n// END-injectable-loader';
+    + '\n// END-import-inject-loader';
 };
 
 function replaceKeyByInject(key, ast, resourcePath) {
@@ -56,12 +56,12 @@ function replaceKeyByInject(key, ast, resourcePath) {
 }
 
 function getVariableNames(key) {
-  const injectableLoaderPrefix = 'il';
+  const loaderPrefix = 'il';
 
   return {
-    overwriteMethodName: injectableLoaderPrefix + 'Overwrite' + capitalizeFirstLetter(key),
-    usedName: injectableLoaderPrefix + capitalizeFirstLetter(key),
-    defaultName: injectableLoaderPrefix + 'Default' + capitalizeFirstLetter(key)
+    overwriteMethodName: loaderPrefix + 'Overwrite' + capitalizeFirstLetter(key),
+    usedName: loaderPrefix + capitalizeFirstLetter(key),
+    defaultName: loaderPrefix + 'Default' + capitalizeFirstLetter(key)
   }
 }
 
