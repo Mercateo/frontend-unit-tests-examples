@@ -12,7 +12,7 @@ type Users = Array<User>;
  * The `<FetchUser/>` fetches a user.
  */
 @observer
-export class FetchUser extends Component<void, void> {
+export class FetchUser extends Component<{}, void> {
   @observable
   data: Users | null = null;
 

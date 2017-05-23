@@ -6,7 +6,7 @@ import { observer } from 'mobx-react';
  * The `<Counter/>` component counts your clicks.
  */
 @observer
-export class Counter extends Component<void, void> {
+export class Counter extends Component<{}, void> {
   @observable
   count = 0;
 

@@ -20,7 +20,7 @@ type Users = Array<User>;
  * The `<FetchUser/>` fetches a user.
  */
 @observer
-export class FetchUserDi extends Component<void, void> {
+export class FetchUserDi extends Component<{}, void> {
   fetch = fetchUserDependencies.get(Fetch) as typeof fetch;
 
   @observable
