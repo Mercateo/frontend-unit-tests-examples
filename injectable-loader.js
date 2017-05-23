@@ -2,9 +2,8 @@ const loaderUtils = require('loader-utils');
 const babylon = require('babylon');
 const babel = require('babel-core');
 const traverse = require('babel-traverse');
-const expect = require('expect');
 
-module.exports = function (contentStr, contentJs) {
+module.exports = function (contentStr, sourceMap) {
   const options = loaderUtils.parseQuery(this.query);
   const resourcePath = this.resourcePath;
 
@@ -16,7 +15,7 @@ module.exports = function (contentStr, contentJs) {
   const imports = Object.keys(options);
 
   // parse AST
-  let ast = babylon.parse(contentStr, {
+  const ast = babylon.parse(contentStr, {
     sourceType: 'module',
     plugins: [
       'jsx'
@@ -25,7 +24,7 @@ module.exports = function (contentStr, contentJs) {
 
   // replace imports by custom import which can be overwritten
   imports.forEach(
-    key => ast = replaceKeyByInject(key, ast, resourcePath)
+    key => replaceKeyByInject(key, ast, resourcePath)
   );
 
   // export method to reset all overwritten imports
@@ -73,22 +72,16 @@ function addResetFunction(ast, imports) {
     const { defaultName, usedName } = getVariableNames(importName);
 
     return ({
-      type: "ExpressionStatement",
+      type: 'ExpressionStatement',
       expression: {
-        type: "AssignmentExpression",
-        operator: "=",
+        type: 'AssignmentExpression',
+        operator: '=',
         left: {
-          type: "Identifier",
-          loc: {
-            identifierName: usedName
-          },
+          type: 'Identifier',
           name: usedName
         },
         right: {
-          type: "Identifier",
-          loc: {
-            identifierName: defaultName
-          },
+          type: 'Identifier',
           name: defaultName
         }
       }
@@ -100,12 +93,9 @@ function addResetFunction(ast, imports) {
     specifiers: [],
     source: null,
     declaration: {
-      type: "FunctionDeclaration",
+      type: 'FunctionDeclaration',
       id: {
-        type: "Identifier",
-        loc: {
-          identifierName: resetMethodName
-        },
+        type: 'Identifier',
         name: resetMethodName
       },
       generator: false,
@@ -113,7 +103,7 @@ function addResetFunction(ast, imports) {
       async: false,
       params: [],
       body: {
-        type: "BlockStatement",
+        type: 'BlockStatement',
         body: expressionStatements,
         directives: []
       }
@@ -147,7 +137,7 @@ function replaceImportUsages(ast, key, overwrittenName) {
 }
 
 function addExportedOverwriteMethod(ast, overwriteMethodName, usedName) {
-  ast.program.body.unshift(
+  ast.program.body.push(
     {
       type: 'ExportNamedDeclaration',
       specifiers: [],
@@ -177,9 +167,6 @@ function addExportedOverwriteMethod(ast, overwriteMethodName, usedName) {
                 operator: '=',
                 left: {
                   type: 'Identifier',
-                  loc: {
-                    identifierName: usedName
-                  },
                   name: usedName
                 },
                 right: {
