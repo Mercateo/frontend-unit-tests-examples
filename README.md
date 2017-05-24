@@ -17,6 +17,7 @@ Here is a breakdown of all involved frameworks:
 * [Enzyme](http://airbnb.io/enzyme/): A lib for more complex React tests.
 * [InversifyJS](http://inversify.io/): Used for dependency injection/inversion of control in some of our packages.
 * [PhantomJS](http://phantomjs.org/): A headless browser which is used to execute the tests. (It is based on WebKit and has the same APIs as a real browser, but starts faster.)
+* [import-inject-loader](https://github.com/Mercateo/import-inject-loader): A webpack loader which can replace imports by own implementations during build time.
 
 Note that we don't really use a mocking library in our stack. In most cases this is not necessary due to the dynamic nature of JavaScript. We just write down what we need. However [@otbe](https://github.com/otbe) experimented with writing a TypeScript specific mocking library called [`emock`](https://github.com/otbe/emock). It was quite nice, but we don't really used it so far.
 
@@ -28,7 +29,7 @@ In [`src/`](./src) you can find basic components written with our current stack:
 * [`src/component-with-add-prop.tsx`](./src/component-with-add-prop.tsx) exports `<Add2 />`. This is the same component as `<Add />`, but `add` can be overwritten via `props`.
 * [`src/component-with-interaction.tsx`](./src/component-with-interaction.tsx) exports `<Counter />`. This is a stateful class component to showcase testing of dynamic state based on user interactions.
 * [`src/component-with-fetching.tsx`](./src/component-with-fetching.tsx) exports `<FetchUser />`. This stateful class component showcases the testing of components which request data.
-* [`src/component-with-fetching-2.tsx`](./src/component-with-fetching-2.tss) and [`src/component-with-fetching-di.tsx`](./src/component-with-fetching-di.tsx) are variations of `<FetchUser />` similar to like `<Add2 />` is a variation of `<Add />` to make `fetch` overwriteable.
+* [`src/component-with-fetching-2.tsx`](./src/component-with-fetching-2.tsx) and [`src/component-with-fetching-di.tsx`](./src/component-with-fetching-di.tsx) are variations of `<FetchUser />` similar to like `<Add2 />` is a variation of `<Add />` to make `fetch` overwriteable.
 
 In [`tests/`](./tests/) you can find the according tests:
 
@@ -37,6 +38,7 @@ In [`tests/`](./tests/) you can find the according tests:
 * [`tests/component-with-spy.tsx`](./tests/component-with-spy.tsx) shows you how to use spies.
 * [`tests/component-with-interaction.tsx`](./tests/component-with-interaction.tsx) shows you how to fake user interactions.
 * [`tests/component-with-fetching.tsx`](./tests/component-with-fetching.tsx), [`tests/component-with-fetching-2.tsx`](./tests/component-with-fetching-2.tsx) and [`tests/component-with-fetching-di.tsx`](./tests/component-with-fetching-di.tsx) shows you how to mock http requests via re-assigning `fetch` or with dependency injection.
+* [`tests/component-with-import-inject-loader.tsx`](./tests/component-with-import-inject-loader.tsx) shows the usage of import-inject-loader in the components `<FetchUser />` and `<Add />`.
 
 # Good to know
 
