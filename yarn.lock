@@ -1263,6 +1263,10 @@ babylon@^6.11.0, babylon@^6.15.0:
   version "6.15.0"
   resolved "https://registry.yarnpkg.com/babylon/-/babylon-6.15.0.tgz#ba65cfa1a80e1759b0e89fb562e27dccae70348e"
 
+babylon@^6.17.1:
+  version "6.17.1"
+  resolved "https://registry.yarnpkg.com/babylon/-/babylon-6.17.1.tgz#17f14fddf361b695981fe679385e4f1c01ebd86f"
+
 backo2@1.0.2:
   version "1.0.2"
   resolved "https://npm-registry.mercateo.lan/repository/npm/backo2/-/backo2-1.0.2.tgz#31ab1ac8b129363463e35b3ebb69f4dfcfba7947"
@@ -2895,6 +2899,15 @@ ignore-loader@^0.1.1:
 image-size@~0.5.0:
   version "0.5.0"
   resolved "https://npm-registry.mercateo.lan/repository/npm/image-size/-/image-size-0.5.0.tgz#be7aed1c37b5ac3d9ba1d66a24b4c47ff8397651"
+
+import-inject-loader@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/import-inject-loader/-/import-inject-loader-0.1.0.tgz#c1221f88931df28a5e78e181167c7209be32372c"
+  dependencies:
+    babel-core "^6.24.1"
+    babel-traverse "^6.24.1"
+    babylon "^6.17.1"
+    loader-utils "^1.1.0"
 
 indexes-of@^1.0.1:
   version "1.0.1"
@@ -4815,12 +4828,6 @@ sauce-connect-launcher@^1.2.2:
 sax@>=0.6.0, sax@~1.2.1:
   version "1.2.1"
   resolved "https://npm-registry.mercateo.lan/repository/npm/sax/-/sax-1.2.1.tgz#7b8e656190b228e81a66aea748480d828cd2d37a"
-
-"scribble-loader@file:../scribble-loader/":
-  version "1.0.0"
-  dependencies:
-    loader-utils "^0.2.15"
-    lodash "^3.10.0"
 
 selenium-grid-status@^0.2.0:
   version "0.2.0"
