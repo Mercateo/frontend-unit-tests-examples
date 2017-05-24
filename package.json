@@ -8,7 +8,7 @@
     "ws": "./node_modules/.bin/ws"
   },
   "devDependencies": {
-    "@mercateo/ws": "file:../ws/",
+    "@mercateo/ws": "1.0.2",
     "@types/enzyme": "^2.8.0",
     "@types/expect": "^1.20.1",
     "@types/mocha": "^2.2.41",
@@ -16,24 +16,24 @@
     "babel-traverse": "^6.24.1",
     "enzyme": "^2.8.2",
     "expect": "^1.20.2",
+    "import-inject-loader": "^0.1.0",
     "loader-utils": "^1.1.0",
-    "react-addons-test-utils": "^15.5.1",
-    "import-inject-loader": "^0.1.0"
+    "react-addons-test-utils": "^15.5.1"
   },
   "dependencies": {
     "@types/react": "^0.14.27",
     "@types/react-dom": "^0.14.23",
-    "@types/sinon": "^2.2.1",
+    "@types/sinon": "^2.2.2",
     "babel-generator": "^6.24.1",
     "babel-polyfill": "^6.23.0",
     "inversify": "^4.1.0",
     "loader-utils": "^1.1.0",
-    "mobx": "^3.1.9",
+    "mobx": "^3.1.10",
     "mobx-react": "^4.1.8",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "reflect-metadata": "^0.1.10",
-    "sinon": "^2.2.0",
+    "sinon": "^2.3.1",
     "whatwg-fetch": "^2.0.3"
   }
 }
