@@ -2,8 +2,8 @@ import expect from 'expect';
 import React from 'react';
 import { shallow } from 'enzyme';
 import { nextTick } from './utils';
-const { Add, ilOverwriteDefaultAdd, resetAllInjects: resetAllInAdd }  = require('import-inject-loader?defaultAdd!../src/component-with-add-prop');
-const { FetchUser, ilOverwriteFetch, resetAllInjects: resetAllInFetchUser } = require('import-inject-loader?fetch!../src/component-with-fetching');
+const { Add, ilOverwriteDefaultAdd, ilResetAll: resetAllInAdd } = require('import-inject-loader?defaultAdd!../src/component-with-add-prop');
+const { FetchUser, ilOverwriteFetch, ilResetAll: resetAllInFetchUser } = require('import-inject-loader?fetch!../src/component-with-fetching');
 
 describe('component: `<FetchUser />` with import-inject-loader', () => {
   beforeEach(() => {
@@ -18,7 +18,7 @@ describe('component: `<FetchUser />` with import-inject-loader', () => {
         resolve({
           ok: true,
           json: async () => [{ name: 'Mocked Foo Bar' }]
-        })
+        });
       });
     });
 

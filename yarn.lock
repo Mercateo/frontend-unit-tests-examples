@@ -2887,9 +2887,9 @@ image-size@~0.5.0:
   version "0.5.0"
   resolved "https://npm-registry.mercateo.lan/repository/npm/image-size/-/image-size-0.5.0.tgz#be7aed1c37b5ac3d9ba1d66a24b4c47ff8397651"
 
-import-inject-loader@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/import-inject-loader/-/import-inject-loader-0.1.0.tgz#c1221f88931df28a5e78e181167c7209be32372c"
+import-inject-loader@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/import-inject-loader/-/import-inject-loader-0.2.0.tgz#01b2189a80a2eb25136a0f6715add5a1d1a2b77d"
   dependencies:
     babel-core "^6.24.1"
     babel-traverse "^6.24.1"
