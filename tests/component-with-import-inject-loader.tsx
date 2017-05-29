@@ -2,16 +2,18 @@ import expect from 'expect';
 import React from 'react';
 import { shallow } from 'enzyme';
 import { nextTick } from './utils';
-const { Add, ilOverwriteDefaultAdd, ilResetAll: resetAllInAdd } = require('import-inject-loader?defaultAdd!../src/component-with-add-prop');
-const { FetchUser, ilOverwriteFetch, ilResetAll: resetAllInFetchUser } = require('import-inject-loader?fetch!../src/component-with-fetching');
+import {
+  Add,
+  ilOverwriteDefaultAdd,
+  ilResetAll as resetAllInAdd
+} from 'import-inject-loader?defaultAdd!../src/component-with-add-prop';
+import {
+  FetchUser,
+  ilOverwriteFetch,
+  ilResetAll as resetAllInFetchUser
+} from 'import-inject-loader?fetch!../src/component-with-fetching';
 
 describe('component: `<FetchUser />` with import-inject-loader', () => {
-  beforeEach(() => {
-    // could be done at the end of the second test only as well,
-    // but as this wouldn't be executed for tests with exceptions we should call it before each test individually
-    resetAllInFetchUser();
-  });
-
   it('should fetch user with replaced fetch', async () => {
     ilOverwriteFetch((url: string): Promise<any> => {
       return new Promise((resolve, reject) => {
@@ -41,15 +43,11 @@ describe('component: `<FetchUser />` with import-inject-loader', () => {
     // Keeps loading, as the Promise doesn't get resolved
     expect(getText()).toBe('Loading...');
   });
+
+  afterEach(resetAllInFetchUser);
 });
 
 describe('component: `<Add />` with import-inject-loader', () => {
-  beforeEach(() => {
-    // could be done at the end of the second test only as well,
-    // but as this wouldn't be executed for tests with exceptions we should call it before each test individually
-    resetAllInAdd();
-  });
-
   it('should show the sum', () => {
     const wrapper = shallow(<Add a={1} b={2} />);
 
@@ -72,4 +70,6 @@ describe('component: `<Add />` with import-inject-loader', () => {
     expect(wrapper.type()).toBe('p');
     expect(wrapper.text()).toBe('The sum is: 15.');
   });
+
+  afterEach(resetAllInAdd);
 });

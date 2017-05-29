@@ -10,14 +10,14 @@ To build and serve the app call `ws watch`. To run the unit tests call `ws unit`
 
 Here is a breakdown of all involved frameworks:
 
-* [expect](https://github.com/mjackson/expect): Our assertion framework (e.g. `expect(foo).toBe(bar)`). Includes support for [spies](https://github.com/mjackson/expect#spies).
+* [`expect`](https://github.com/mjackson/expect): Our assertion framework (e.g. `expect(foo).toBe(bar)`). Includes support for [spies](https://github.com/mjackson/expect#spies).
 * [Mocha](https://mochajs.org/): Our test framework responsible for structuring (e.g. `decribe`, `it`) and reporting.
 * [Karma](karma-runner.github.io/): Our test runner which takes care of launching browsers.
-* [react-addons-test-utils](https://facebook.github.io/react/docs/test-utils.html): A lib for basic React tests.
+* [`react-addons-test-utils`](https://facebook.github.io/react/docs/test-utils.html): A lib for basic React tests.
 * [Enzyme](http://airbnb.io/enzyme/): A lib for more complex React tests.
 * [InversifyJS](http://inversify.io/): Used for dependency injection/inversion of control in some of our packages.
 * [PhantomJS](http://phantomjs.org/): A headless browser which is used to execute the tests. (It is based on WebKit and has the same APIs as a real browser, but starts faster.)
-* [import-inject-loader](https://github.com/Mercateo/import-inject-loader): A webpack loader which can replace imports by own implementations during build time.
+* [`import-inject-loader`](https://github.com/Mercateo/import-inject-loader): A WebPack loader which can add new APIs to your modules at build time, so you can override `import`'s or globals with mocks in your tests.
 
 Note that we don't really use a mocking library in our stack. In most cases this is not necessary due to the dynamic nature of JavaScript. We just write down what we need. However [@otbe](https://github.com/otbe) experimented with writing a TypeScript specific mocking library called [`emock`](https://github.com/otbe/emock). It was quite nice, but we don't really used it so far.
 
@@ -38,7 +38,7 @@ In [`tests/`](./tests/) you can find the according tests:
 * [`tests/component-with-spy.tsx`](./tests/component-with-spy.tsx) shows you how to use spies.
 * [`tests/component-with-interaction.tsx`](./tests/component-with-interaction.tsx) shows you how to fake user interactions.
 * [`tests/component-with-fetching.tsx`](./tests/component-with-fetching.tsx), [`tests/component-with-fetching-2.tsx`](./tests/component-with-fetching-2.tsx) and [`tests/component-with-fetching-di.tsx`](./tests/component-with-fetching-di.tsx) shows you how to mock http requests via re-assigning `fetch` or with dependency injection.
-* [`tests/component-with-import-inject-loader.tsx`](./tests/component-with-import-inject-loader.tsx) shows the usage of import-inject-loader in the components `<FetchUser />` and `<Add />`.
+* [`tests/component-with-import-inject-loader.tsx`](./tests/component-with-import-inject-loader.tsx) shows the usage of `import-inject-loader` in the components `<FetchUser />` and `<Add />`.
 
 # Good to know
 

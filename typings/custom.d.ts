@@ -4,6 +4,4 @@ declare const require: {
   context(directory: string, useSubdirectories: boolean, regExp: RegExp): any;
 }
 
-declare module 'injectable-loader?*';
-
-// declare function require: require;
+declare module 'import-inject-loader?*';
