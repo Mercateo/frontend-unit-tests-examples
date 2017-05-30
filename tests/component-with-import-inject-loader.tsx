@@ -15,14 +15,10 @@ import {
 
 describe('component: `<FetchUser />` with import-inject-loader', () => {
   it('should fetch user with replaced fetch', async () => {
-    ilOverwriteFetch((url: string): Promise<any> => {
-      return new Promise((resolve, reject) => {
-        resolve({
-          ok: true,
-          json: async () => [{ name: 'Mocked Foo Bar' }]
-        });
-      });
-    });
+    ilOverwriteFetch(() => ({
+      ok: true,
+      json: () => [{ name: 'Mocked Foo Bar' }]
+    }));
 
     const wrapper = shallow(<FetchUser />);
     const getText = () => wrapper.find('p').text();
