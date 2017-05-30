@@ -52,12 +52,10 @@ For primitive values there is no real difference between `expect(foo).toBe(bar)`
 
 The line numbers in the stack trace are currently allways a little bit off... that happens because of incorrect source maps. But the file name should be allways correct.
 
-# Future of Frontend unit testing
+# Other approaches
 
 Many people prefer [Jest](https://facebook.github.io/jest/) nowadays. It's fast, because it is only run inside a Node environment - not inside a browser engine. So you have to mock _all_ Browser APIs (e.g. the DOM). Of course most people have done this already in open source projects. But it feels _odd_ to test your code inside a different environment where it will be executed by the user.
 
-Jest features Snapshot testing. This can be usefull for testing complex React trees. You capture a _know good result_ and use it for test to see, if your result changes _anywhere_. However this tests really _everything_ and some things are likely to change often (like styling), so it could be possible that you would need to update your snapshots very often - even if your test is not interested in styling differences.
+Jest features Snapshot testing. This can be usefull for testing something liek complex React trees. You capture a _know good result_ and use it for test to see, if your result changes _anywhere_. However this tests really _everything_ and some things are likely to change often (like styling), so it could be possible that you would need to update your snapshots very often - even if your test is not interested in styling differences. However... this can be avoided, if you write custom serializers. At the end it depends on your use case.
 
-I prefer to just test what you _think_ is important to keep tests focused. You can either do this manually as shown in these examples or with a helper like [`html-looks-like`](https://github.com/staltz/html-looks-like).
-
-Instead of dynamically overwriting global (or locally exposed) objects and methods (like `fetch`) or using dependency injection for changing the real implementation with a mock, we could use our build system in unit tests to add mocks in the future. E.g. we could change `fetch` with a mock for certain tests at build time.
+Another interesting approach is [`html-looks-like`](https://github.com/staltz/html-looks-like) which only tests what "looks like" something.
