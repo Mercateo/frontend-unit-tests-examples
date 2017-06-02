@@ -13,7 +13,7 @@ Here is a breakdown of all involved frameworks:
 * [`expect`](https://github.com/mjackson/expect): Our assertion framework (e.g. `expect(foo).toBe(bar)`). Includes support for [spies](https://github.com/mjackson/expect#spies).
 * [Mocha](https://mochajs.org/): Our test framework responsible for structuring (e.g. `decribe`, `it`) and reporting.
 * [Karma](karma-runner.github.io/): Our test runner which takes care of launching browsers.
-* [`react-dom/test-utils`](https://facebook.github.io/react/docs/test-utils.html): A lib for basic React tests. (`react-addons-test-utils` is deprecated.)
+* [`react-test-renderer`](https://www.npmjs.com/package/react-test-renderer) (and [`react-dom/test-utils`](https://facebook.github.io/react/docs/test-utils.html)): A lib for basic React tests. (`react-addons-test-utils` is deprecated.)
 * [Enzyme](http://airbnb.io/enzyme/): A lib for more complex React tests.
 * [InversifyJS](http://inversify.io/): Used for dependency injection/inversion of control in some of our packages.
 * [PhantomJS](http://phantomjs.org/): A headless browser which is used to execute the tests. (It is based on WebKit and has the same APIs as a real browser, but starts faster.)
