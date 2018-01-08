@@ -1,4 +1,4 @@
-import expect, { createSpy, Spy } from 'expect';
+import expect, { createSpy } from 'expect';
 import React from 'react';
 import { shallow } from 'enzyme';
 import { FetchUser2 } from '../src/component-with-fetching-2';
@@ -7,11 +7,11 @@ import { nextTick } from './utils';
 describe('component: `<FetchUser2 />`', () => {
   const originalFetch = FetchUser2.fetch;
   let resolveFetch: (value: any) => void;
-  const mockedFetch = () => new Promise(resolve => resolveFetch = resolve);
-  const mockedResponse = ({
+  const mockedFetch = () => new Promise((resolve) => (resolveFetch = resolve));
+  const mockedResponse = {
     ok: true,
     json: async () => [{ name: 'Foo Bar' }]
-  });
+  };
   const fetchSpy = createSpy().andCall(mockedFetch);
 
   beforeEach(() => {
@@ -28,7 +28,9 @@ describe('component: `<FetchUser2 />`', () => {
     await nextTick();
 
     expect(fetchSpy.calls.length).toEqual(1);
-    expect(fetchSpy).toHaveBeenCalledWith('https://jsonplaceholder.typicode.com/users');
+    expect(fetchSpy).toHaveBeenCalledWith(
+      'https://jsonplaceholder.typicode.com/users'
+    );
     expect(getText()).toBe('Hello Foo Bar!');
   });
 

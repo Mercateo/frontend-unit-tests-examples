@@ -13,25 +13,15 @@ import { FetchUserDi } from './component-with-fetching-di';
 render(
   <div>
     <Add a={1} b={2} />
-
     <hr />
-
     <Add2 a={1} b={2} />
-
     <hr />
-
     <Counter />
-
     <hr />
-
     <FetchUser />
-
     <hr />
-
     <FetchUser2 />
-
     <hr />
-
     <FetchUserDi />
   </div>,
   document.getElementById('app')

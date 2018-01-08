@@ -2,6 +2,7 @@ import expect from 'expect';
 import React from 'react';
 import { shallow } from 'enzyme';
 import { nextTick } from './utils';
+/* eslint-disable import/no-extraneous-dependencies */
 import {
   Add,
   ilOverwriteDefaultAdd,
@@ -12,6 +13,7 @@ import {
   ilOverwriteFetch,
   ilResetAll as resetAllInFetchUser
 } from 'import-inject-loader?fetch!../src/component-with-fetching';
+/* eslint-enable import/no-extraneous-dependencies */
 
 describe('component: `<FetchUser />` with import-inject-loader', () => {
   it('should fetch user with replaced fetch', async () => {

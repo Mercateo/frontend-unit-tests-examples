@@ -5,33 +5,35 @@
     "type": "spa"
   },
   "scripts": {
-    "ws": "./node_modules/.bin/ws"
+    "ws": "ws",
+    "start": "ws watch",
+    "test": "ws lint && ws unit"
   },
   "devDependencies": {
-    "@mercateo/ws": "1.0.2",
-    "@types/enzyme": "^2.8.0",
-    "@types/expect": "^1.20.1",
-    "@types/mocha": "^2.2.41",
-    "@types/react-test-renderer": "^15.5.0",
-    "babel-traverse": "^6.24.1",
-    "enzyme": "^2.8.2",
-    "expect": "^1.20.2",
+    "@mercateo/ws": "2.9.0",
+    "@types/enzyme": "^2.0.0",
+    "@types/expect": "^1.20.2",
+    "@types/mocha": "^2.2.46",
+    "@types/react-test-renderer": "^16.0.0",
+    "babel-traverse": "^6.26.0",
+    "enzyme": "^2.0.0",
+    "expect": "^1.0.0",
     "import-inject-loader": "^0.2.4",
     "loader-utils": "^1.1.0",
-    "react-addons-test-utils": "^15.5.1",
-    "react-test-renderer": "^15.5.4"
+    "react-addons-test-utils": "^15.6.2",
+    "react-test-renderer": "^16.2.0"
   },
   "dependencies": {
-    "@types/react": "^15.0.25",
-    "@types/react-dom": "^15.5.0",
-    "babel-generator": "^6.24.1",
-    "babel-polyfill": "^6.23.0",
-    "inversify": "^4.1.0",
+    "@types/react": "^16.0.34",
+    "@types/react-dom": "^16.0.3",
+    "babel-generator": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
+    "inversify": "^4.9.0",
     "loader-utils": "^1.1.0",
-    "mobx": "^3.1.10",
-    "mobx-react": "^4.1.8",
-    "react": "^15.5.4",
-    "react-dom": "^15.5.4",
+    "mobx": "^3.4.1",
+    "mobx-react": "^4.3.5",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
     "reflect-metadata": "^0.1.10",
     "whatwg-fetch": "^2.0.3"
   }

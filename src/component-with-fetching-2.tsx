@@ -12,16 +12,17 @@ type Users = Array<User>;
  * The `<FetchUser/>` fetches a user.
  */
 @observer
-export class FetchUser2 extends Component<{}, void> {
+export class FetchUser2 extends Component {
   static fetch = fetch.bind(window);
 
-  @observable
-  data: Users | null = null;
+  @observable data: Users | null = null;
 
   async componentWillMount() {
-    const response = await FetchUser2.fetch('https://jsonplaceholder.typicode.com/users');
+    const response = await FetchUser2.fetch(
+      'https://jsonplaceholder.typicode.com/users'
+    );
     if (response.ok) {
-      this.data = await response.json() as Users;
+      this.data = (await response.json()) as Users;
     }
   }
 

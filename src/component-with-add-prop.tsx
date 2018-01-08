@@ -22,4 +22,6 @@ interface AddProps {
 /**
  * The `<Add/>` component adds two summands and shows the sum.
  */
-export const Add: SFC<AddProps> = ({ a, b, add = defaultAdd }) => <p>The sum is: {add(a, b)}.</p>;
+export const Add: SFC<AddProps> = ({ a, b, add = defaultAdd }) => (
+  <p>The sum is: {add(a, b)}.</p>
+);
