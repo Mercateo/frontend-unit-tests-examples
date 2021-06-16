@@ -1,3 +1,5 @@
+**DEPRECATED** This project is unmantained, deprecated and goes into archive with followup removal in 2 years.
+
 # frontend-unit-tests-examples
 
 > How to write unit tests in our current frontend stack.
